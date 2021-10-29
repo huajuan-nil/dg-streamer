@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard",
+    "test": "npm run lint && echo \"Warning: no test specified\"",
+    "prepare": "husky install"
   },
   "keywords": [],
   "repository": {
@@ -12,5 +14,9 @@
     "url": "https://github.com/huajuan-nil/dg-streamer.git"
   },
   "author": "huajuan-nil",
-  "license": "WTFPL"
+  "license": "WTFPL",
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "standard": "^16.0.4"
+  }
 }
