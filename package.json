@@ -2,11 +2,12 @@
   "name": "dg-streamer",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "lint": "standard",
-    "test": "npm run lint && echo \"Warning: no test specified\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start": "electron .",
+    "test": "npm run lint && echo \"Warning: no test specified\""
   },
   "keywords": [],
   "repository": {
@@ -16,7 +17,11 @@
   "author": "huajuan-nil",
   "license": "WTFPL",
   "devDependencies": {
+    "electron": "^17.0.1",
     "husky": "^7.0.4",
     "standard": "^16.0.4"
+  },
+  "dependencies": {
+    "OpenDGLab": "file:vendor/OpenDGLab"
   }
 }

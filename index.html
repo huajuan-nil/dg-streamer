@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+</head>
+<body>
+<h1>Hello World!</h1>
+We are using Node.js <span id="node-version"><script>document.write(process.versions.node)</script></span>,
+Chromium <span id="chrome-version"><script>document.write(process.versions.chrome)</script></span>,
+and Electron <span id="electron-version"><script>document.write(process.versions.electron)</script></span>.
+
+<h2>Target device</h2>
+<div id="devices">
+    <input id="devices-scan" type="button" value="Scan devices" onclick="scan().catch(alert)" />
+    <input id="devices-disconnect" type="button" value="Disconnect" onclick="disconnect().catch(alert)" style="display: none" />
+    <p id="devices-msg" style="display: none"></p>
+    <ul id="devices-list"></ul>
+    <ul id="devices-status" style="display: none">
+        <li>Battery: <span id="devices-status-battery">(unknown)</span>%</li>
+        <li>Channel A: <span id="devices-status-channel_a">(unknown)</span></li>
+        <li>Channel B: <span id="devices-status-channel_b">(unknown)</span></li>
+    </ul>
+</div>
+
+<div id="control">
+
+</div>
+
+<!-- You can also require other files to run in this process -->
+<script src="./renderer.js"></script>
+</body>
+</html>

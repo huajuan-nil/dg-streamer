@@ -1,0 +1,16 @@
+{
+  "main": "kotlin/OpenDGLab.js",
+  "devDependencies": {
+    "dukat": "0.5.7"
+  },
+  "dependencies": {
+    "kotlin": "file:/home/tabjy/Documents/repositories/github.com/OpenDGLab/OpenDGLab-Core/build/js/packages_imported/kotlin/1.4.10",
+    "kotlin-test-js-runner": "file:/home/tabjy/Documents/repositories/github.com/OpenDGLab/OpenDGLab-Core/build/js/packages_imported/kotlin-test-js-runner/1.4.10",
+    "kotlin-test": "file:/home/tabjy/Documents/repositories/github.com/OpenDGLab/OpenDGLab-Core/build/js/packages_imported/kotlin-test/1.4.10"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": [],
+  "name": "OpenDGLab",
+  "version": "1.0.0-SNAPSHOT"
+}
