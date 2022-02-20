@@ -10,10 +10,11 @@ We are using Node.js <span id="node-version"><script>document.write(process.vers
 Chromium <span id="chrome-version"><script>document.write(process.versions.chrome)</script></span>,
 and Electron <span id="electron-version"><script>document.write(process.versions.electron)</script></span>.
 
-<h2>Target device</h2>
 <div id="devices">
-    <input id="devices-scan" type="button" value="Scan devices" onclick="scan().catch(alert)" />
-    <input id="devices-disconnect" type="button" value="Disconnect" onclick="disconnect().catch(alert)" style="display: none" />
+    <h2>Target device</h2>
+    <input id="devices-scan" type="button" value="Scan devices" onclick="scan().catch(alert)"/>
+    <input id="devices-disconnect" type="button" value="Disconnect" onclick="disconnect().catch(alert)"
+           style="display: none"/>
     <p id="devices-msg" style="display: none"></p>
     <ul id="devices-list"></ul>
     <ul id="devices-status" style="display: none">
@@ -24,6 +25,32 @@ and Electron <span id="electron-version"><script>document.write(process.versions
 </div>
 
 <div id="control">
+    <h2>Device control</h2>
+    <script>
+      const waves = require('OpenDGLab').WaveCenter.Companion.getBasicWaveList()
+        .map(name => `<option value="${name}">${name}</option>`).join('')
+
+      for (const i of ['a', 'b']) {
+        document.write(`
+        <h3>Channel ${i.toUpperCase()}</h3>
+        <ul>
+            <li>
+                <label for="control-${i}-strength">Strength:</label>
+                <input type="button" value="-" onclick="document.getElementById('control-${i}-strength').value--; document.getElementById('control-${i}-strength').dispatchEvent(new Event('change'))" />
+                <input id="control-${i}-strength" type="range" min="0" max="274" value="0"/>
+                <input type="button" value="+" onclick="document.getElementById('control-${i}-strength').value++; document.getElementById('control-${i}-strength').dispatchEvent(new Event('change'))" />
+            </li>
+            <li>
+                <label for="control-${i}-wave">Wave:</label>
+                <select id="control-${i}-wave">
+                    <option disabled selected>Select wave</option>
+                    ${waves}
+        </select>
+        </li>
+        </ul>
+      `)
+      }
+    </script>
 
 </div>
 

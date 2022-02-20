@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron')
 
-const { OpenDGLab } = require('OpenDGLab')
+const { OpenDGLab, WaveCenter } = require('OpenDGLab')
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -17,7 +17,11 @@ const ui = {
     status_channelB: document.getElementById('devices-status-channel_b')
   },
   control: {
-    _: document.getElementById('control')
+    _: document.getElementById('control'),
+    a_strength: document.getElementById('control-a-strength'),
+    a_wave: document.getElementById('control-a-wave'),
+    b_strength: document.getElementById('control-b-strength'),
+    b_wave: document.getElementById('control-b-wave')
   }
 }
 
@@ -30,9 +34,6 @@ const dgble = {
 }
 
 const dglab = new OpenDGLab()
-
-window.dgble = dgble
-window.dglab = dglab
 
 async function scan () { // eslint-disable-line no-unused-vars
   ui.device.scan.style.display = 'none'
@@ -141,3 +142,32 @@ async function disconnect () { // eslint-disable-line no-unused-vars
 
   dgble.device.gatt.disconnect()
 }
+
+(() => {
+  for (const i of ['a', 'b']) {
+    ui.control[i + '_strength'].addEventListener('change', (event) => {
+      const strength = Math.min(event.target.value, 274)
+      const power = dglab.eStimStatus.abPower.setABPower(i === 'a' ? strength : ui.control.a_strength.value, i === 'b' ? strength : ui.control.b_strength.value)
+      dgble.characteristic.eStim.abpower.writeValueWithoutResponse(Uint8Array.from(power.data))
+    })
+
+    const center = i === 'a' ? dglab.eStimStatus.wave.getWaveCenterA() : dglab.eStimStatus.wave.getWaveCenterB()
+    ui.control[i + '_wave'].addEventListener('change', (event) => {
+      const wave = WaveCenter.Companion.getBasicWave(event.target.value)
+      center.selectWave(null)
+      center.selectWave(wave)
+    })
+
+    setInterval(() => {
+      const buffer = center.waveTick()
+      if (buffer) {
+        // XXX: for some reason, you need to use the waveB characteristic for channel A
+        if (i === 'a') {
+          dgble.characteristic.eStim.waveB.writeValueWithoutResponse(Uint8Array.from(buffer))
+        } else {
+          dgble.characteristic.eStim.waveA.writeValueWithoutResponse(Uint8Array.from(buffer))
+        }
+      }
+    }, 100)
+  }
+})()
